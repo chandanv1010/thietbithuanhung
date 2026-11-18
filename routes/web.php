@@ -192,6 +192,10 @@ Route::get('ajax/dashboard/findModelObject', [AjaxDashboardController::class, 'f
 
 Route::group(['middleware' => ['admin','locale','backend_default_locale']], function () {
    Route::get('dashboard/index', [DashboardController::class, 'index'])->name('dashboard.index');
+   // Giữ phiên đăng nhập khi đang soạn form lâu (tránh 419 Page Expired)
+   Route::get('ajax/dashboard/keepalive', function () {
+      return response()->json(['token' => csrf_token()]);
+   })->name('ajax.dashboard.keepalive');
 
    /* USER */
    Route::group(['prefix' => 'user'], function () {
